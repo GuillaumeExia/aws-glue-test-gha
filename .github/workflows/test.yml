@@ -1,0 +1,22 @@
+name: Run AWS Glue Tests
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  container-job:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Run Tests
+        uses: docker://amazon/aws-glue-libs:glue_libs_4.0.0_image_01
+        with:
+          workdir: /github/workspace
+          args: |
+            python3 local_glue_test.py
