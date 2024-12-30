@@ -17,6 +17,9 @@ jobs:
       - name: Run Tests
         uses: docker://amazon/aws-glue-libs:glue_libs_4.0.0_image_01
         with:
-          workdir: /github/workspace
-          args: |
-            python3 local_glue_test.py
+          entrypoint: /bin/bash
+          args: -c "python3 local_glue_test.py"
+        env:
+          WORKSPACE_DIR: /home/glue_user/workspace
+        volumes:
+          - ${{ github.workspace }}:${{ env.WORKSPACE_DIR }}
